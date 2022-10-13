@@ -50,6 +50,9 @@ public class Listeners implements MouseListener, KeyListener, MouseMotionListene
             if(Space.state == Space.STATES.Pause){
                 Pause.click = true;
             }
+            if(Space.state == Space.STATES.ScoreMenu){
+                ScoreMenu.click = true;
+            }
         }
     }
 
@@ -64,6 +67,9 @@ public class Listeners implements MouseListener, KeyListener, MouseMotionListene
             }
             if(Space.state == Space.STATES.Pause){
                 Pause.click = false;
+            }
+            if(Space.state == Space.STATES.ScoreMenu){
+                ScoreMenu.click = false;
             }
         }
     }

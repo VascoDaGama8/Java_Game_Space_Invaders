@@ -6,6 +6,9 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class Space extends JPanel implements ActionListener{
 
@@ -27,8 +30,8 @@ public class Space extends JPanel implements ActionListener{
     static AlienFac alienFac = new AlienFac(p);
     Menu menu = new Menu();
     EndMenu emenu = new EndMenu();
-
     Pause pause = new Pause();
+    ScoreMenu scoremenu = new ScoreMenu();
 
     public Space() throws IOException {
         mainTimer.start();
@@ -38,6 +41,7 @@ public class Space extends JPanel implements ActionListener{
         addMouseListener(new Listeners());
         setFocusable(true);
         bestScore = fileReader.read();
+        System.out.println(bestScore);
     }
 
     public void paint(Graphics g ) {
@@ -45,6 +49,15 @@ public class Space extends JPanel implements ActionListener{
         if (state.equals(STATES.MainMenu)) {
             try {
                 menu.draw((Graphics2D) g);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (FontFormatException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (state.equals(STATES.ScoreMenu)) {
+            try {
+                scoremenu.draw((Graphics2D) g);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (FontFormatException e) {
@@ -97,7 +110,7 @@ public class Space extends JPanel implements ActionListener{
                         p.score = 0;
                         try {
                             fileWriter = new FileWriter("res/score.txt");
-                            fileWriter.write(String.valueOf(bestScore));
+                            fileWriter.write(bestScore);
                             fileWriter.flush();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -139,7 +152,7 @@ public class Space extends JPanel implements ActionListener{
                     p.score = 0;
                     try {
                         fileWriter = new FileWriter("res/score.txt");
-                        fileWriter.write(String.valueOf(bestScore));
+                        fileWriter.write(bestScore);
                         fileWriter.flush();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
@@ -173,7 +186,7 @@ public class Space extends JPanel implements ActionListener{
                         p.score = 0;
                         try {
                             fileWriter = new FileWriter("res/score.txt");
-                            fileWriter.write(String.valueOf(bestScore));
+                            fileWriter.write(bestScore);
                             fileWriter.flush();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -256,6 +269,10 @@ public class Space extends JPanel implements ActionListener{
                         p.bullet.clear();
                         Menu.click = false;
                     }
+                    if(Menu.click == true && i == 2){
+                        state = STATES.ScoreMenu;
+                        Menu.click = false;
+                    }
                     if(Menu.click == true && i == 3){
                         System.exit(1);
                     }
@@ -264,13 +281,29 @@ public class Space extends JPanel implements ActionListener{
                 }
             }
         }
+        if(state.equals(STATES.ScoreMenu)){
+            repaint();
+            for(int i = 2; i < scoremenu.n+2; i++) {
+                if (Space.mouseX > scoremenu.getX() && Space.mouseX < scoremenu.getX() + scoremenu.getW() &&
+                        Space.mouseY > (scoremenu.getY() + 140) * i + 50 && Space.mouseY < (scoremenu.getY() + 140) * i + 50 + scoremenu.getH()) {
+                    scoremenu.color[i - 2] = Color.WHITE;
+                    if (ScoreMenu.click == true && i == 2) {
+                        state = STATES.MainMenu;
+                        ScoreMenu.click = false;
+                    }
+                }
+                else {
+                        scoremenu.color[i-2] = Color.BLACK;
+                }
+            }
+        }
         if(state.equals(STATES.EndMenu)){
             repaint();
             for(int i = 1; i < emenu.n+1; i++) {
                 if (Space.mouseX > emenu.getX() && Space.mouseX < emenu.getX() + emenu.getW() &&
                         Space.mouseY > (emenu.getY() + 140) * i + 50 && Space.mouseY < (emenu.getY() + 140) * i + 50 + emenu.getH()) {
-                    emenu.color[i-1] = Color.WHITE;
-                    if(EndMenu.click == true && i == 1){
+                    emenu.color[i - 1] = Color.WHITE;
+                    if (EndMenu.click == true && i == 1) {
                         state = STATES.Play;
                         p.img = new ImageIcon("res/player.png").getImage();
                         p.nh = 3;
@@ -285,7 +318,7 @@ public class Space extends JPanel implements ActionListener{
                         p.y = 650;
                         EndMenu.click = false;
                     }
-                    if(EndMenu.click == true && i == 2){
+                    if (EndMenu.click == true && i == 2) {
                         state = STATES.MainMenu;
                         p.alien.clear();
                         p.bullet.clear();
@@ -293,7 +326,8 @@ public class Space extends JPanel implements ActionListener{
                         p.y = 650;
                         EndMenu.click = false;
                     }
-                } else {
+                }
+                else {
                     emenu.color[i-1] = Color.BLACK;
                 }
             }
