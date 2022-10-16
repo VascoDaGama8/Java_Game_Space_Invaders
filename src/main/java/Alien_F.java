@@ -11,6 +11,7 @@ public class Alien_F extends Entities{
         nh = 1;
         score = 70;
         time = 5;
+        k = false;
         this.x = x;
         y = 0;
         img = new ImageIcon("res/Alien_F.png").getImage();

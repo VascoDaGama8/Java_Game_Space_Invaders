@@ -13,6 +13,7 @@ public class Entities {
     int h;
     int inc_x;
     int inc_y;
+    boolean k;
     static int bullets;
 
     int time;

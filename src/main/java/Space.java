@@ -145,17 +145,23 @@ public class Space extends JPanel implements ActionListener{
                     e.inc_x *= -1;
                 }
                 if (e.y > size.height*47/64 + 50 && e.inc_y != 0) {
-                    state = STATES.EndMenu;
-                    if (p.score > bestScore) {
-                        bestScore = p.score;
+                    if(e.k == false) {
+                        state = STATES.EndMenu;
+                        if (p.score > bestScore) {
+                            bestScore = p.score;
+                        }
+                        p.score = 0;
+                        try {
+                            fileWriter = new FileWriter("res/score.txt");
+                            fileWriter.write(bestScore);
+                            fileWriter.flush();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
-                    p.score = 0;
-                    try {
-                        fileWriter = new FileWriter("res/score.txt");
-                        fileWriter.write(bestScore);
-                        fileWriter.flush();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    if(e.k == true){
+                        p.score -= e.score;
+                        i.remove();
                     }
                 }
 
@@ -240,10 +246,10 @@ public class Space extends JPanel implements ActionListener{
             }
             g.setFont(font1);
             g.setColor(Color.WHITE);
-            g.drawString("Health: ", (size.height-30)*6/10, 20);
-            g.drawString("Score: " + p.score, (size.height-30)*6/10, 40);
+            g.drawString("Health: ", (size.height-30)*11/20, 20);
+            g.drawString("Score: " + p.score, (size.height-30)*11/20, 40);
             for (int x = 0; x < p.nh; x++) {
-                g.drawImage(new ImageIcon("res/heart.png").getImage(), (size.height-30)*6/10+70 + x * 18, 9, 16, 13, null);
+                g.drawImage(new ImageIcon("res/heart.png").getImage(), (size.height-30)*11/20+70 + x * 18, 9, 16, 13, null);
             }
         }
     }

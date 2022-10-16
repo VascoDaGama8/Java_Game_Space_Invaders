@@ -13,18 +13,21 @@ public class AlienFac extends Thread{
             Random rand = new Random();
             try {
                 Thread.sleep(rand.nextInt(2000) + 3000);
-                int i = rand.nextInt(4);
+                int i = rand.nextInt(5);
                 if (i==0){
-                    p.alien.add(new Alien_A(rand.nextInt((size.height-30)*6/8-50) + 50));
+                    p.alien.add(new Alien_A(rand.nextInt((size.height-30)*45/80) + 50));
                 }
                 if (i==1){
-                    p.alien.add(new Alien_B(rand.nextInt((size.height-30)*6/8-50) + 50));
+                    p.alien.add(new Alien_B(rand.nextInt((size.height-30)*45/80) + 50));
                 }
                 if (i==2){
-                    p.alien.add(new Alien_S(rand.nextInt((size.height-30)*6/8-50) + 50));
+                    p.alien.add(new Alien_S(rand.nextInt((size.height-30)*45/80) + 50));
                 }
                 if (i==3){
-                    p.alien.add(new Alien_F(rand.nextInt((size.height-30)*6/8-50) + 50));
+                    p.alien.add(new Alien_F(rand.nextInt((size.height-30)*45/80) + 50));
+                }
+                if (i==4){
+                    p.alien.add(new Alien_K(rand.nextInt((size.height-30)*45/80) + 50));
                 }
 
 
