@@ -49,6 +49,21 @@ public class Pause {
         g.drawImage(img1, 0, 0, (size.height-30)*6/8, size.height+170, null);
         g.drawImage(img2, 0, (size.height-30)*3/8, (size.height-30)*6/8, (size.height-30)*6/9, null);
         g.drawImage(img3, Space.p.x, Space.p.y, 50, 50, null);
+        Font font1;
+        try {
+            font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(10f);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        g.setFont(font1);
+        g.setColor(Color.WHITE);
+        g.drawString("Health: ", (size.height-30)*11/20, 20);
+        g.drawString("Score: " + Space.p.score, (size.height-30)*11/20, 40);
+        for (int x = 0; x < Space.p.nh; x++) {
+            g.drawImage(new ImageIcon("res/heart.png").getImage(), (size.height-30)*11/20+70 + x * 18, 9, 16, 13, null);
+        }
         Iterator<Entities> j = Space.p.alien.iterator();
         while (j.hasNext()) {
             Entities e = j.next();
@@ -63,7 +78,7 @@ public class Pause {
                 g.drawImage(e.img, e.x, e.y, e.w, e.h, null);
             }
         }
-        Font font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(36f);
+        font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(36f);
         g.setFont(font1);
         long length = (int) g.getFontMetrics().getStringBounds("Pause" , g).getWidth();
         g.setColor(Color.RED);

@@ -107,7 +107,6 @@ public class Space extends JPanel implements ActionListener{
                         if (p.score > bestScore) {
                             bestScore = p.score;
                         }
-                        p.score = 0;
                         try {
                             fileWriter = new FileWriter("res/score.txt");
                             fileWriter.write(bestScore);
@@ -150,7 +149,6 @@ public class Space extends JPanel implements ActionListener{
                         if (p.score > bestScore) {
                             bestScore = p.score;
                         }
-                        p.score = 0;
                         try {
                             fileWriter = new FileWriter("res/score.txt");
                             fileWriter.write(bestScore);
@@ -189,7 +187,6 @@ public class Space extends JPanel implements ActionListener{
                         if (p.score > bestScore) {
                             bestScore = p.score;
                         }
-                        p.score = 0;
                         try {
                             fileWriter = new FileWriter("res/score.txt");
                             fileWriter.write(bestScore);
@@ -307,13 +304,14 @@ public class Space extends JPanel implements ActionListener{
         }
         if(state.equals(STATES.EndMenu)){
             repaint();
-            for(int i = 1; i < emenu.n+1; i++) {
+            for(int i = 2; i < emenu.n+2; i++) {
                 Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                 if (Space.mouseX > emenu.getX() && Space.mouseX < emenu.getX() + emenu.getW() &&
                         Space.mouseY > (emenu.getY() + size.height*140/800) * i + 50 && Space.mouseY < (emenu.getY() + size.height*140/800) * i + 50 + emenu.getH()) {
-                    emenu.color[i - 1] = Color.WHITE;
-                    if (EndMenu.click == true && i == 1) {
+                    emenu.color[i - 2] = Color.WHITE;
+                    if (EndMenu.click == true && i == 2) {
                         state = STATES.Play;
+                        p.score = 0;
                         p.img = new ImageIcon("res/player.png").getImage();
                         p.nh = 3;
                         try {
@@ -327,8 +325,9 @@ public class Space extends JPanel implements ActionListener{
                         p.y = size.height*47/64;
                         EndMenu.click = false;
                     }
-                    if (EndMenu.click == true && i == 2) {
+                    if (EndMenu.click == true && i == 3) {
                         state = STATES.MainMenu;
+                        p.score = 0;
                         p.alien.clear();
                         p.bullet.clear();
                         p.x = (size.height-30)*6/16-35;
@@ -337,7 +336,7 @@ public class Space extends JPanel implements ActionListener{
                     }
                 }
                 else {
-                    emenu.color[i-1] = Color.BLACK;
+                    emenu.color[i-2] = Color.BLACK;
                 }
             }
         }
@@ -362,6 +361,7 @@ public class Space extends JPanel implements ActionListener{
                     }
                     if(Pause.click == true && i == 2){
                         state = STATES.MainMenu;
+                        p.score = 0;
                         p.alien.clear();
                         p.bullet.clear();
                         p.x = (size.height-30)*6/16-35;

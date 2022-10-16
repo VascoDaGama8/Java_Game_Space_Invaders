@@ -33,10 +33,11 @@ public class EndMenu {
         return h;
     }
     public EndMenu(){
-        x = 100;
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        x = size.height*1/8;
         y = 0;
-        w = 400;
-        h = 104;
+        w = size.height*1/2;
+        h = size.height*104/800;
         n = 2;
         list[0] = "Restart";
         list[1] = "Exit";
@@ -49,6 +50,21 @@ public class EndMenu {
         g.drawImage(img1, 0, 0, (size.height-30)*6/8, size.height+170, null);
         g.drawImage(img2, 0, (size.height-30)*3/8, (size.height-30)*6/8, (size.height-30)*6/9, null);
         g.drawImage(Space.p.img, Space.p.x, Space.p.y, 50, 50, null);
+        Font font1;
+        try {
+            font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(10f);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        g.setFont(font1);
+        g.setColor(Color.WHITE);
+        g.drawString("Health: ", (size.height-30)*11/20, 20);
+        g.drawString("Score: " + Space.p.score, (size.height-30)*11/20, 40);
+        for (int x = 0; x < Space.p.nh; x++) {
+            g.drawImage(new ImageIcon("res/heart.png").getImage(), (size.height-30)*11/20+70 + x * 18, 9, 16, 13, null);
+        }
         Iterator<Entities> j = Space.p.alien.iterator();
         while (j.hasNext()) {
             Entities e = j.next();
@@ -63,18 +79,23 @@ public class EndMenu {
                 g.drawImage(e.img, e.x, e.y, e.w, e.h, null);
             }
         }
-        Font font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(36f);
+        font1 = Font.createFont(Font.TRUETYPE_FONT, new File("res/pico-8.ttf")).deriveFont(36f);
         g.setFont(font1);
         long length = (int) g.getFontMetrics().getStringBounds("Game over!" , g).getWidth();
         g.setColor(Color.RED);
         g.drawString("Game over!" , (x+w/2) - (int) (length / 2) - 2, 50 + (h/3)*2);
         g.setColor(Color.YELLOW);
         g.drawString("Game over!" , (x+w/2) - (int) (length / 2) + 2, 50 + (h/3)*2);
-        for(int i = 1; i<n+1; i++){
-            g.drawImage(img, x, (y+140)*i + 50, w, h, null);
-            g.setColor(color[i-1]);
-            length = (int) g.getFontMetrics().getStringBounds(list[i-1], g).getWidth();
-            g.drawString(list[i-1], (x+w/2) - (int) (length / 2), (y+140)*i + 50 + (h/3)*2);
+        length = (int) g.getFontMetrics().getStringBounds(Integer.toString(Space.p.score) , g).getWidth();
+        g.setColor(Color.RED);
+        g.drawString(Integer.toString(Space.p.score)  , (x+w/2) - (int) (length / 2) - 2, (y+size.height*140/800) + 50 + (h/3)*2);
+        g.setColor(Color.YELLOW);
+        g.drawString(Integer.toString(Space.p.score) , (x+w/2) - (int) (length / 2) + 2, (y+size.height*140/800) + 50 + (h/3)*2);
+        for(int i = 2; i<n+2; i++){
+            g.drawImage(img, x, (y+size.height*140/800)*i + 50, w, h, null);
+            g.setColor(color[i-2]);
+            length = (int) g.getFontMetrics().getStringBounds(list[i-2], g).getWidth();
+            g.drawString(list[i-2], (x+w/2) - (int) (length / 2), (y+size.height*140/800)*i + 50 + (h/3)*2);
         }
     }
 }
