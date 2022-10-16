@@ -41,7 +41,6 @@ public class Space extends JPanel implements ActionListener{
         addMouseListener(new Listeners());
         setFocusable(true);
         bestScore = fileReader.read();
-        System.out.println(bestScore);
     }
 
     public void paint(Graphics g ) {
@@ -85,9 +84,10 @@ public class Space extends JPanel implements ActionListener{
         }
 
         if (state.equals(STATES.Play)) {
-            g.drawImage(img1, 0, 0, 600, 1000, null);
-            g.drawImage(img2, 0, 370, 600, 500, null);
-            if (p.x <= 0 || p.x >= 530) {
+            Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+            g.drawImage(img1, 0, 0, (size.height-30)*6/8, size.height+170, null);
+            g.drawImage(img2, 0, (size.height-30)*3/8, (size.height-30)*6/8, (size.height-30)*6/9, null);
+            if (p.x <= 0 || p.x >= (size.height-30)*6/8-70) {
                 p.inc_x = 0;
             }
             g.drawImage(p.img, p.x, p.y, 50, 50, null);
@@ -141,10 +141,10 @@ public class Space extends JPanel implements ActionListener{
                     e.inc_x *= (int) (Math.pow(-1, rand.nextInt(3)));
                     e.time = 15;
                 }
-                if (e.x >= 535 || e.x <= 0) {
+                if (e.x >= (size.height-30)*6/8-65 || e.x <= 0) {
                     e.inc_x *= -1;
                 }
-                if (e.y > 650 && e.inc_y != 0) {
+                if (e.y > size.height*47/64 + 50 && e.inc_y != 0) {
                     state = STATES.EndMenu;
                     if (p.score > bestScore) {
                         bestScore = p.score;
@@ -193,7 +193,7 @@ public class Space extends JPanel implements ActionListener{
                         }
                     }
                 }
-                if (e.y < 0 || e.y > 820) {
+                if (e.y < 0 || e.y > size.height) {
                     i.remove();
                 } else {
                     e.move();
@@ -240,10 +240,10 @@ public class Space extends JPanel implements ActionListener{
             }
             g.setFont(font1);
             g.setColor(Color.WHITE);
-            g.drawString("Health: ", 450, 20);
-            g.drawString("Score: " + p.score, 450, 40);
+            g.drawString("Health: ", (size.height-30)*6/10, 20);
+            g.drawString("Score: " + p.score, (size.height-30)*6/10, 40);
             for (int x = 0; x < p.nh; x++) {
-                g.drawImage(new ImageIcon("res/heart.png").getImage(), 520 + x * 18, 9, 16, 13, null);
+                g.drawImage(new ImageIcon("res/heart.png").getImage(), (size.height-30)*6/10+70 + x * 18, 9, 16, 13, null);
             }
         }
     }
@@ -253,8 +253,9 @@ public class Space extends JPanel implements ActionListener{
         if (state.equals(STATES.MainMenu)){
             repaint();
             for(int i = 1; i < menu.n+1; i++) {
+                Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                 if (Space.mouseX > menu.getX() && Space.mouseX < menu.getX() + menu.getW() &&
-                        Space.mouseY > (menu.getY() + 140) * i + 50 && Space.mouseY < (menu.getY() + 140) * i + 50 + menu.getH()) {
+                        Space.mouseY > (menu.getY() + size.height*140/800) * i + 50 && Space.mouseY < (menu.getY() + size.height*140/800) * i + 50 + menu.getH()) {
                     menu.color[i-1] = Color.WHITE;
                     if(Menu.click == true && i == 1){
                         state = STATES.Play;
@@ -284,8 +285,9 @@ public class Space extends JPanel implements ActionListener{
         if(state.equals(STATES.ScoreMenu)){
             repaint();
             for(int i = 2; i < scoremenu.n+2; i++) {
+                Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                 if (Space.mouseX > scoremenu.getX() && Space.mouseX < scoremenu.getX() + scoremenu.getW() &&
-                        Space.mouseY > (scoremenu.getY() + 140) * i + 50 && Space.mouseY < (scoremenu.getY() + 140) * i + 50 + scoremenu.getH()) {
+                        Space.mouseY > (scoremenu.getY() + size.height*140/800) * i + 50 && Space.mouseY < (scoremenu.getY() + size.height*140/800) * i + 50 + scoremenu.getH()) {
                     scoremenu.color[i - 2] = Color.WHITE;
                     if (ScoreMenu.click == true && i == 2) {
                         state = STATES.MainMenu;
@@ -300,8 +302,9 @@ public class Space extends JPanel implements ActionListener{
         if(state.equals(STATES.EndMenu)){
             repaint();
             for(int i = 1; i < emenu.n+1; i++) {
+                Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                 if (Space.mouseX > emenu.getX() && Space.mouseX < emenu.getX() + emenu.getW() &&
-                        Space.mouseY > (emenu.getY() + 140) * i + 50 && Space.mouseY < (emenu.getY() + 140) * i + 50 + emenu.getH()) {
+                        Space.mouseY > (emenu.getY() + size.height*140/800) * i + 50 && Space.mouseY < (emenu.getY() + size.height*140/800) * i + 50 + emenu.getH()) {
                     emenu.color[i - 1] = Color.WHITE;
                     if (EndMenu.click == true && i == 1) {
                         state = STATES.Play;
@@ -314,16 +317,16 @@ public class Space extends JPanel implements ActionListener{
                         }
                         p.alien.clear();
                         p.bullet.clear();
-                        p.x = 265;
-                        p.y = 650;
+                        p.x = (size.height-30)*6/16-35;
+                        p.y = size.height*47/64;
                         EndMenu.click = false;
                     }
                     if (EndMenu.click == true && i == 2) {
                         state = STATES.MainMenu;
                         p.alien.clear();
                         p.bullet.clear();
-                        p.x = 215;
-                        p.y = 650;
+                        p.x = (size.height-30)*6/16-35;
+                        p.y = size.height*47/64;
                         EndMenu.click = false;
                     }
                 }
@@ -335,8 +338,9 @@ public class Space extends JPanel implements ActionListener{
         if(state.equals(STATES.Pause)){
             repaint();
             for(int i = 1; i < pause.n+1; i++) {
+                Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
                 if (Space.mouseX > pause.getX() && Space.mouseX < pause.getX() + pause.getW() &&
-                        Space.mouseY > (pause.getY() + 140) * i + 50 && Space.mouseY < (pause.getY() + 140) * i + 50 + pause.getH()) {
+                        Space.mouseY > (pause.getY() + size.height*140/800) * i + 50 && Space.mouseY < (pause.getY() + size.height*140/800) * i + 50 + pause.getH()) {
                     pause.color[i-1] = Color.WHITE;
                     if(Pause.click == true && i == 1){
                         state = STATES.Play;
@@ -354,8 +358,8 @@ public class Space extends JPanel implements ActionListener{
                         state = STATES.MainMenu;
                         p.alien.clear();
                         p.bullet.clear();
-                        p.x = 215;
-                        p.y = 650;
+                        p.x = (size.height-30)*6/16-35;
+                        p.y = size.height*47/64;
                         Pause.click = false;
                     }
                 } else {

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.*;
 
 public class Listeners implements MouseListener, KeyListener, MouseMotionListener {
@@ -9,7 +10,8 @@ public class Listeners implements MouseListener, KeyListener, MouseMotionListene
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_RIGHT && Space.p.x <= 535){
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        if (key == KeyEvent.VK_RIGHT && Space.p.x <= (size.height-30)*6/8-70){
             Space.p.inc_x = 5;
         }
         if (key == KeyEvent.VK_LEFT && Space.p.x >= 0){

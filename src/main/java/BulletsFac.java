@@ -2,9 +2,6 @@ import java.awt.event.KeyEvent;
 
 class BulletsFac extends Thread{
     Entities p;
-    int x;
-    int y;
-    int b = 1;
     BulletsFac(Entities p){
         this.p = p;
     }

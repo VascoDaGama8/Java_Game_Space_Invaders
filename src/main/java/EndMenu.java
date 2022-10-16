@@ -45,8 +45,9 @@ public class EndMenu {
     }
 
     public void draw(Graphics2D g) throws IOException, FontFormatException {
-        g.drawImage(img1,0,0, 600, 1000,null);
-        g.drawImage(img2, 0, 370, 600, 500, null);
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        g.drawImage(img1, 0, 0, (size.height-30)*6/8, size.height+170, null);
+        g.drawImage(img2, 0, (size.height-30)*3/8, (size.height-30)*6/8, (size.height-30)*6/9, null);
         g.drawImage(Space.p.img, Space.p.x, Space.p.y, 50, 50, null);
         Iterator<Entities> j = Space.p.alien.iterator();
         while (j.hasNext()) {

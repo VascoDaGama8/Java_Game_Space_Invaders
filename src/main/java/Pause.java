@@ -32,10 +32,11 @@ public class Pause {
         return h;
     }
     public Pause(){
-        x = 100;
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        x = size.height*1/8;
         y = 0;
-        w = 400;
-        h = 104;
+        w = size.height*1/2;
+        h = size.height*104/800;
         n = 2;
         list[0] = "Continue";
         list[1] = "Exit";
@@ -44,8 +45,9 @@ public class Pause {
     }
 
     public void draw(Graphics2D g) throws IOException, FontFormatException {
-        g.drawImage(img1,0,0, 600, 1000,null);
-        g.drawImage(img2, 0, 370, 600, 500, null);
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        g.drawImage(img1, 0, 0, (size.height-30)*6/8, size.height+170, null);
+        g.drawImage(img2, 0, (size.height-30)*3/8, (size.height-30)*6/8, (size.height-30)*6/9, null);
         g.drawImage(img3, Space.p.x, Space.p.y, 50, 50, null);
         Iterator<Entities> j = Space.p.alien.iterator();
         while (j.hasNext()) {
@@ -69,10 +71,10 @@ public class Pause {
         g.setColor(Color.YELLOW);
         g.drawString("Pause" , (x+w/2) - (int) (length / 2) + 2, 50 + (h/3)*2);
         for(int i = 1; i<n+1; i++){
-            g.drawImage(img, x, (y+140)*i + 50, w, h, null);
+            g.drawImage(img, x, (y+size.height*140/800)*i + 50, w, h, null);
             g.setColor(color[i-1]);
             length = (int) g.getFontMetrics().getStringBounds(list[i-1], g).getWidth();
-            g.drawString(list[i-1], (x+w/2) - (int) (length / 2), (y+140)*i + 50 + (h/3)*2);
+            g.drawString(list[i-1], (x+w/2) - (int) (length / 2), (y+size.height*140/800)*i + 50 + (h/3)*2);
         }
     }
 }
